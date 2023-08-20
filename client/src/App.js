@@ -57,7 +57,7 @@ const App = ( ) => {
               <Route path="/news" element={<StockMarketNews />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route element={<NotFoundPage/>} />
+              <Route path="/*" element={<NotFoundPage/>} />
               </Routes>
           </div>
             
