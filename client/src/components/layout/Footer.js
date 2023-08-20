@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="row">
           <div className="col-md-6">
             <p>&copy; {new Date().getFullYear()} mysticalmanav. All rights reserved.</p>
-            <p>Built and made with all the love in the world by <a href='https://www.linkedin.com/in/manav-sharma-263092250'>Manav</a> </p>
+            <p>Built and made with all the love in the world by <a  href='https://www.linkedin.com/in/manav-sharma-263092250' target="_blank">Manav</a> </p>
           </div>
           <div className="col-md-3">
             <h5>Quick Links</h5>

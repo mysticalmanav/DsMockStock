@@ -82,7 +82,7 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
     <Navbar expand="sm" className="bg-dark navbar-dark">
 
       
-      <Navbar.Brand   href="/"> {' '}DmMockStock</Navbar.Brand>
+      <Navbar.Brand   href="/"> {' '}DsMockStock</Navbar.Brand>
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
        
@@ -107,8 +107,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps,{logout})(Navbar_);
 
-        
-      
           
       
      

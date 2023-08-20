@@ -22,6 +22,7 @@ import Transactions from "./components/Portfolio/Transactions";
 import Footer from "./components/layout/Footer";
 import PrivacyPolicy from "./components/layout/Privacypolicy";
 import AboutUs from "./components/layout/About";
+import NotFoundPage from "./components/layout/Notfound";
 if(localStorage.token){
    setAuthToken(localStorage.token); 
 }
@@ -56,7 +57,7 @@ const App = ( ) => {
               <Route path="/news" element={<StockMarketNews />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              
+              <Route element={<NotFoundPage/>} />
               </Routes>
           </div>
             

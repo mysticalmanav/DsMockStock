@@ -55,9 +55,9 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
           </button>
           <button
             className="btn btn-md btn-outline-primary my-2"
-            onClick={() => navigate('/stocks')}
+            onClick={() => navigate('/transactions')}
           >
-           Check Past Transaction
+           Check Past Transactions
           </button>
   <p>Below is a list of stocks you currently own:</p>
 

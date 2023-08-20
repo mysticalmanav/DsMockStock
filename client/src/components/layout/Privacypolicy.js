@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
         <strong>Changes to this Policy:</strong> We may update this Privacy Policy from time to time. You are advised to review this page periodically for any changes. Your continued use of our website constitutes your acceptance of these changes.
       </p>
       <p>
-        If you have any questions or concerns about our Privacy Policy, please don't hesitate to <a href="/contact">contact us</a>.
+        If you have any questions or concerns about our Privacy Policy, please don't hesitate to <a href="#footer">contact us</a>.
       </p>
       <p>
         Effective Date: {effectiveDate}
