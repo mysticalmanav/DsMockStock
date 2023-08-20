@@ -1,0 +1,6 @@
+{
+    "mongoURI":"mongodb+srv://mysticalmanav:manav&123@devconnecter.oxy5cwr.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret":"mysecrettoken",
+    "githubClientId":"5ca4ccaf1ca83b3e65f2",
+    "githubClientSecret":"ddcd8cc3b1771e0eabec8e38b3539399485dbc3c"
+}
