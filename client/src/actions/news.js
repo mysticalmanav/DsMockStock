@@ -9,7 +9,7 @@ export const getNews =  ()=>async dispatch =>{
          
     
     try{
-        const res = await axios.get('api/news');
+        const res = await axios.get('https://dsmockstock.onrender.com/api/news');
         dispatch({
             type:GET_NEWS,
             payload:res.data
@@ -34,7 +34,7 @@ export const addNews = ({ topic,text,code2  }) => async dispatch => {
     const body = JSON.stringify({topic, detail,code2 });
     try {
           
-        const res = await axios.post('/api/news', body, config);
+        const res = await axios.post('https://dsmockstock.onrender.com/api/news', body, config);
         dispatch({
             type: ADD_NEWS,
             payload: res.data 
