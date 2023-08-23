@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_NEWS, NEWS_ERROR ,ADD_NEWS } from './types';
+import {GET_NEWS, NEWS_ERROR ,ADD_NEWS, END_ERROR, ROUND_END } from './types';
 import { setAlert } from "./alert";
 import setAuthToken from '../utils/setAuthToken';
 //load a user
@@ -9,7 +9,7 @@ export const getNews =  ()=>async dispatch =>{
          
     
     try{
-        const res = await axios.get('https://dsmockstock.onrender.com/api/news');
+        const res = await axios.get('https://freshersmockstock.onrender.com/api/news');
         dispatch({
             type:GET_NEWS,
             payload:res.data
@@ -34,7 +34,7 @@ export const addNews = ({ topic,text,code2  }) => async dispatch => {
     const body = JSON.stringify({topic, detail,code2 });
     try {
           
-        const res = await axios.post('https://dsmockstock.onrender.com/api/news', body, config);
+        const res = await axios.post('https://freshersmockstock.onrender.com/api/news', body, config);
         dispatch({
             type: ADD_NEWS,
             payload: res.data 
@@ -54,4 +54,67 @@ export const addNews = ({ topic,text,code2  }) => async dispatch => {
         })}
     }
 }  
+//Verify a User
+export const endRound = () => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+     
+     
+    try {
+          
+        const res = await axios.put('https://freshersmockstock.onrender.com/api/news/round/end');
+        dispatch({
+            type: ROUND_END,
+            payload: res.data 
+        });
+        dispatch(setAlert("Round Ended", 'success'));
+
+    }
+    catch (error) {
+       
+        const errors = error.response.data.errors;
+        console.error(error);
+        if(error) {dispatch(setAlert('Failed to end round', 'danger'))
+        dispatch({
+
+            type: END_ERROR,
+            payload:error.message
+        })}
+    }
+}  
+//Verify a User
+export const endContest = () => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+     
+     
+    try {
+          
+        const res = await axios.put('https://freshersmockstock.onrender.com/api/news/contest/end');
+        dispatch({
+            type: ROUND_END,
+            payload: res.data 
+        });
+        dispatch(setAlert("Contest Ended", 'success'));
+
+    }
+    catch (error) { 
+       
+        const errors = error.response.data.errors;
+        console.error(error);
+        if(error) {dispatch(setAlert('Failed to end contest', 'danger'))
+        dispatch({
+
+            type: END_ERROR,
+            payload:error.message
+        })}
+    }
+}  
+
 

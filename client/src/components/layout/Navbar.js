@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+
 import { logout } from "../../actions/auth";
 const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
   const log_out  = ()=>{
@@ -18,7 +19,7 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
       <li className="nav-item">
         <Link to="/stocks" className="nav-link">
           <i class="fa-solid fa-money-bill-trend-up"></i>
-        {' '}  Stocks
+        {' '}  Trade
         </Link>
       </li>
       <li className="nav-item">
@@ -79,10 +80,10 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
   );
 
   return (
-    <Navbar expand="sm" className="bg-dark navbar-dark">
+    <Navbar expand="sm" className="bg-nav navbar-dark">
 
       
-      <Navbar.Brand   href="/"> {' '}DsMockStock</Navbar.Brand>
+      <Navbar.Brand   href="/"> {'  '}<i class="fa-brands fa-square-lastfm ms-2"></i>{'    '} FreshersMockStock</Navbar.Brand>
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
        
@@ -92,7 +93,7 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
         )}
        </Navbar.Collapse>
       
-    </Navbar>
+    </Navbar> 
   );
 };
 

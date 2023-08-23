@@ -8,7 +8,7 @@ const ProfileSchema = new mongoose.Schema({
        name:{
         type:String,
         required:true
-       },
+       }, 
        price:{
         type:String,
         required:true
@@ -56,8 +56,24 @@ const ProfileSchema = new mongoose.Schema({
             required:true
            }
             
-    }]
-,
+    }],
+    round:[[{
+        stockid:{
+            type:mongoose.Schema.Types.ObjectId,
+            required:true
+        },
+        
+       
+       date:{
+        type:Date,
+        default:Date.now
+       },
+       amount:{
+        type:Number,
+        required:true
+       }
+    }]]
+, 
     date:{
         type:Date,
         default:Date.now

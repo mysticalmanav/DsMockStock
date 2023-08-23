@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { addStock } from '../../actions/stocks';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { addNews } from '../../actions/news';
+import { addNews, endRound ,endContest} from '../../actions/news';
 import { getStocks } from '../../actions/stocks';
 
-const AddStockForm = ({ addStock, addNews, stocks, getStocks }) => {
+const AddStockForm = ({ addStock, addNews, stocks, getStocks,endContest,endRound }) => {
   useEffect(() => {
     getStocks();
   }, []);
@@ -23,6 +23,13 @@ const AddStockForm = ({ addStock, addNews, stocks, getStocks }) => {
   const handlenewsSubmit =  (event) => {
     event.preventDefault();
     addNews({topic,text,code2});
+  }
+  const sendendContest =  () => {
+   endContest();
+  }
+  const sendendRound =  () => {
+   
+    endRound();
   }
   const handleContentChange = (event) => {
     setText(event.target.value);
@@ -214,6 +221,8 @@ const AddStockForm = ({ addStock, addNews, stocks, getStocks }) => {
     <button type="submit" className="btn btn-primary">Update News</button>
   </form>
 </div>
+<div className='container'><a href= '#top'> <button className="btn btn-primary" onClick={sendendRound}>End Round</button></a>
+<a href= '#top'> <button className="btn btn-primary" onClick={sendendContest}>End Contest</button></a></div>
 
     </div>
   );
@@ -223,11 +232,14 @@ AddStockForm.propTypes = {
   addStock: PropTypes.func.isRequired,
   addNews: PropTypes.func.isRequired,
   stocks: PropTypes.array.isRequired,
-  getStocks: PropTypes.func.isRequired
+  getStocks: PropTypes.func.isRequired,
+  endRound:PropTypes.func.isRequired,
+  endContest:PropTypes.func.isRequired
+  
 };
 
 const mapStateToProps = state => ({
   stocks: state.stocks.stocks
 });
 
-export default connect(mapStateToProps, { addStock, addNews, getStocks })(AddStockForm);
+export default connect(mapStateToProps, { addStock, addNews, getStocks,endRound,endContest })(AddStockForm);

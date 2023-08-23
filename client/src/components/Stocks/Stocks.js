@@ -10,16 +10,25 @@ import Spinner from '../layout/Spinner';
  
 
 const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { stocks, loading }, getStocks ,buyStock,sellStock,getPortfolio}) => {
+  const [selectedStock, setSelectedStock] = useState(null);
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     getStocks();
    getPortfolio();
+   if(localStorage.stockid&&stocks.length>0){
+    const sto = stocks.find((stock)=>stock&& stock._id===localStorage.stockid);
+     setSelectedStock(sto); 
+     localStorage.removeItem('stockid');
+  }
+
   }, []);
   const navigate = useNavigate();
   
-  const [selectedStock, setSelectedStock] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [transactionType, setTransactionType] = useState('buy');
-
+  const [isClicked, setisClicked] = useState(false);
+  
   const handleStockSelect = (stock) => {
     setSelectedStock(stock);
     setSelectedQuantity(0);
@@ -27,6 +36,9 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
 
   const handleQuantityChange = (event) => {
     setSelectedQuantity(parseInt(event.target.value));
+  };
+  const calculateProfit = (currentPrice, purchasedPrice, quantity) => {
+    return (currentPrice - purchasedPrice) * quantity;
   };
 
   const handleTransactionTypeChange = (event) => {
@@ -40,6 +52,10 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     return totalPrice;
   };
   const sendbuyStock = async  ()=>{
+     setisClicked(true);
+    
+    
+   
     if(!isAuthenticated){ 
         navigate('/');
     }
@@ -48,19 +64,37 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     const amount  = selectedQuantity;
      
     const stock = selectedStock;
-    await buyStock({stock,balance,amount}); 
-    setSelectedQuantity('');
+     await buyStock({stock,balance,amount}); 
+    setSelectedQuantity(0); 
+     setisClicked(false);
+
      
   }
+  const findCurrentHolds = ( stock)=>{
+    if(!isAuthenticated){
+      return "You have to login to see your holdings."
+  }
+  
+
+    if(!portfolio)  getPortfolio(); 
+    let total = 0;
+     
+    if(portfolio!=null){ portfolio.currentstock.map((st)=>{
+          if(st!=null&&stock&&st.stockid===stock._id){
+            total += parseInt(st.amount);
+          }
+    }); }
+    return total;
+   }
   const sendsellStock =async ()=>{
-    let balance ;
+    setisClicked(true);
+    let balance;
     if(!isAuthenticated){
       navigate('/');
   }
+  
    if(portfolio!=null)  balance = portfolio.DmStockuser.balance;
-
-
-    console.log('function called');
+ 
    
     balance = parseInt(balance )+ calculateTransactionPrice();
     const amount  = selectedQuantity;
@@ -68,11 +102,11 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     const stock = selectedStock;
     const currentstock = portfolio.currentstock;
     await sellStock({stock,currentstock,balance,amount}); 
-    setSelectedQuantity('');
+    setSelectedQuantity(0);
      
-     
+    setisClicked(false);
   }
-
+ 
   const calculatePriceChange = (stck) => {
     if (stck && stck.past ) {
       const past = stck.past;
@@ -91,24 +125,49 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   return loading || stocks === null ? (
     <Spinner/>
   ) : (
-    <div className='stocks-bg  py-3 p-1'>
-    <div className="mb-2 container Data_frosty__3tA4J rounded p-1 mt-2" id= 'selcted'>
+    <div className='py-3 p-1'>
+    <div className="mb-2 container rounded p-1 mt-2" id= 'selcted'>
+      <form>
        {selectedStock && (
         <div className="transaction-section" >
           <h3>Selected Stock: {selectedStock.name}</h3>
+          <p>Curently Holded: { findCurrentHolds(selectedStock) }</p>
           <p>Price: ${selectedStock.price}</p>
           <p>Price Change: ${calculatePriceChange(selectedStock) }</p>
           <div className="form-group">
             <label htmlFor="transactionType">Select Transaction Type:</label>
-            <select
-              className="form-control"
-              id="transactionType"
-              value={transactionType}
-              onChange={handleTransactionTypeChange}
-            >
-              <option value="buy">Buy</option>
-              <option value="sell">Sell</option>
-            </select>
+            <div className="radio-container">
+  <div className="form-check form-check-inline">
+    <input
+      type="radio"
+      className="form-check-input"
+      name="transactionType"
+      id="buyRadio"
+      value="buy"
+      checked={transactionType === 'buy'}
+      onChange={handleTransactionTypeChange}
+    />
+    <label className="form-check-label" htmlFor="buyRadio">
+      Buy
+    </label>
+  </div>
+  <div className="form-check form-check-inline">
+    <input
+      type="radio"
+      className="form-check-input success"
+      name="transactionType"
+      id="sellRadio"
+      value="sell"
+      checked={transactionType === 'sell'}
+      onChange={handleTransactionTypeChange}
+    />
+    <label className="form-check-label" htmlFor="sellRadio">
+      Sell
+    </label>
+  </div>
+</div>
+
+
           </div>
           <div className="form-group">
             <label htmlFor="quantity">Select Quantity:</label>
@@ -120,36 +179,65 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
               onChange={handleQuantityChange}
               min={0}
               max={selectedStock.quantity}
+              required
             />
           </div>
           <p>Total Price: ${calculateTransactionPrice()}</p>
-          <button className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }> 
+          {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }  > 
             {transactionType === 'buy' ? 'Buy' : 'Sell'}
-          </button>
+          </button>:<button class="btn btn-success" type="button" disabled>
+  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  <span class="sr-only">Loading...</span>
+</button>}
         </div>
-      )}
-      <h2 className="text-center text-bold my-2">Stock List</h2>
+      )} </form>
+      <h2 className="text-center text-bold my-2">Available Stocks</h2>
       <hr></hr>
-      <p className="text-center text-primary"> Select a Stock and Start Transaction</p>
+      <p className="color-nav font-heavy"> Select a Stock and Start Transaction</p>
       
-      <ul className="list-group">
+      <div class="row mb-2">
         {stocks.map((stock) => (
-          <li key={stock._id} className="list-group-item bg-transparent">
-            <h4>{stock.name}</h4>
-            <p>Price: ${stock.price}</p>
-            <p>Price Change: ${calculatePriceChange(stock) }</p>
-           <a href='#top'> <button
+          
+            <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          
+          <h3 >{stock.name}</h3>
+          <div class="mb-1 text-muted">Currently Holded: {findCurrentHolds(stock)}</div>
+          <p className='email-label my-0'>Price Change:</p>
+
+          <p class="card-text mb-auto"> {calculatePriceChange(stock)>=0? <p className='text-success'>${calculatePriceChange(stock)}</p>:<p className='text-danger'>${calculatePriceChange(stock)}</p>}</p>
+          <p className='email-label my-0'>Price:</p>
+          <h2>${stock.price}</h2>
+          <a href='#top'> <button
               className="btn btn-outline-primary"
               onClick={() => handleStockSelect(stock)}
               
             >
               Select Stock
             </button></a>
-          </li>
+        </div>
+         
+      </div>
+      
+    </div>
+          
         ))}
-      </ul>
+      </div>
      
-    </div></div>
+    </div>
+    <div className="bottom-section mt-5">
+        <h2>Explore More Stocks</h2>
+        <p>
+          Discover a wide range of stocks to diversify your portfolio and capitalize on investment opportunities.
+        </p>
+        <p>
+          Our platform provides real-time data, advanced research tools, and expert insights to help you make informed trading decisions.
+        </p>
+         
+      </div>
+
+    </div>
   );
 };
 

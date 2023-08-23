@@ -15,7 +15,7 @@ export const getPortfolio = ()=> async dispatch =>{
    } 
    
     try {
-        const res = await axios.get('https://dsmockstock.onrender.com/api/portfolio/me');
+        const res = await axios.get('https://freshersmockstock.onrender.com/api/portfolio/me');
         dispatch({
          type:GET_PORTFOLIO,
          payload:res.data

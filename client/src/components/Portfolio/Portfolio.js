@@ -12,15 +12,28 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+   
     getPortfolio();
     getStocks();
+   
 
   }, []);
-
+  const sendTosell =(id) =>{
+    localStorage.setItem('stockid',id);
+     navigate('/stocks');
+  }
   const calculateProfit = (currentPrice, purchasedPrice, quantity) => {
     return (currentPrice - purchasedPrice) * quantity;
   };
-
+  const calculatePortfolio = ()=>{
+    let total = 0;
+    if(portfolio) portfolio.currentstock.map((stock)=>{
+      if(stock){
+        total += (stock.amount)*parseInt(getCurrentPrice(stock.stockid));
+      }
+    })
+    return total;
+  }
   const getCurrentPrice = (id) => {
     if (stocks !== null) {
       const stock = stocks.find(stock => stock._id === id);
@@ -34,44 +47,50 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
   return (loading || portfolio === null) ? (
    <Spinner/>
   ) : (
-    <div className='portfolio-bg py-3 p-1'>
-      <div className="container mt-0 pt-3 text-light font-heavy Data_frosty__3tA4I rounded">
+    <div className=' py-3 p-1'>
+      <div className="container mt-0 pt-3 font-heavy ">
 
         <div className="mb-4">
-          <h1 className='text-dark  mx-3 rounded text-center'>Portfolio</h1>
-          <hr/>
-          <p className='text-center'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
-          <h4>Email: {portfolio.DmStockuser.email}</h4>
-          <h3>Cash Balance: ${portfolio.DmStockuser.balance}</h3>
+          
+           
+          <p className='text-center font-heavy'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
+          <p className='my-0 email-label'>Email:</p>
+          <p className='email'>{portfolio.DmStockuser.email}</p>
+          <p className='my-0 email-label'>Cash Balance:</p>
+          <p className='balance'> ${portfolio.DmStockuser.balance}</p>
+          <p className='my-0 email-label'>Your Portfolio Value : </p>
+          <p className='balance'> ${parseFloat(portfolio.DmStockuser.balance)+calculatePortfolio()}</p>
+           
         </div>
          To Start a Transaction click on the button below.
 
         <div className="mb-4">
           <button
-            className="btn btn-md btn-outline-primary my-2"
+            className="btn btn-md btn-outline-dark my-2"
             onClick={() => navigate('/stocks')}
           >
             Buy and Sell Stocks
           </button>
           <button
-            className="btn btn-md btn-outline-primary my-2"
+            className="btn btn-md btn-outline-dark my-2"
             onClick={() => navigate('/transactions')}
           >
            Check Past Transactions
           </button>
-  <p>Below is a list of stocks you currently own:</p>
+  <p className='email-label'>Below is a list of stocks you currently own:</p>
 
-          <h1 className='text-center text-dark border-bottom mt-3 mb-1'>Assets</h1>
-          <div className="table-responsive rounded">
-            <table className="table table-striped text-center rounded">
-              <thead>
-                <tr>
+          <h1 className='text-dark mt-3 mb-3 hold'>Your Holdings : </h1>
+          <div className="table-responsive rounded bg-transparent">
+            <table className="table table-light border-light text-center">
+              <thead className='color-nav'>
+                <tr >
                   <th>Name</th>
                   <th>Current Price</th>
                   <th>Purchased Price</th>
                   <th>Quantity</th>
                   <th>Purchase Date & Time</th> 
                   <th>Profit</th>
+                  <th>Sell</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,6 +102,12 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
                     <td>{stock.amount}</td>
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
                     <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>${calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>${calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
+                    <td>   <button
+            className="btn btn-md btn-outline-primary"
+            onClick={()=>sendTosell(stock.stockid)}
+          >
+          Sell
+          </button>  </td>
                   </tr>
                 )) : (
                   <tr>
@@ -94,6 +119,17 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
           </div>
         </div>
       </div>
+      <div className="bottom-section mt-5">
+    <h2>About Portfolio Management</h2>
+    <p>
+      Proper portfolio management is crucial for successful investing. It involves diversifying your investments across different assets to manage risk and optimize returns.
+      Regularly monitoring your holdings and adjusting your portfolio based on market conditions is key to long-term financial growth.
+    </p>
+    <p>
+      In this platform, you can easily track your stock holdings, monitor their performance, and make informed decisions for your investment strategy.
+    </p>
+  </div>
+
     </div>
   );
 };

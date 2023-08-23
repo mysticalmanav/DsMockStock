@@ -1,5 +1,5 @@
  
-import {ADD_NEWS, GET_NEWS,NEWS_ERROR  } from '../actions/types';
+import {ADD_NEWS, GET_NEWS,NEWS_ERROR , END_ERROR, ROUND_END } from '../actions/types';
 
 const initialState=  {
      
@@ -25,6 +25,15 @@ export default function(state=initialState,action){
          
          
         case NEWS_ERROR:
+        case END_ERROR:
+        return {
+            ...state,
+            error:payload, 
+            
+            loading:false
+        }
+        
+        case ROUND_END:
         return {
             ...state,
             error:payload, 

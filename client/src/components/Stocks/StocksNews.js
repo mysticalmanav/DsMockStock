@@ -15,26 +15,27 @@ const StockMarketNews = ({ news:{news,loading},getNews }) => {
     return loading || news === null ? (
        <Spinner/>
       ) : (
-        <div className='news-bg pt-2'>
-    <div className="stock-market-news container borderd Data_frosty__3tA4I rounded mt-2 mx-auto">
-      <h3 className='text-center p-2'>Stock Market News</h3> 
+        <div className='pt-2'>
+    <div className="stock-market-news container borderd rounded mt-2 mx-auto">
+      <h3 className='text-center p-2'>News</h3> 
+      <p className='color-nav font-heavy text-center'>Its news till its new.</p>
     <div className='px-2'><Link to='/stocks' ><button
-            className="btn btn-md btn-outline-dark my-3"
+            className="btn btn-md btn-outline-primary my-3"
              
-          >Buy and Sell Stocks
+          >Trade
           </button></Link></div>
       <ul className='p-0'>
         {news.length>0&&news.map((item) => (
           
-          <li key={item._id}  className='my-2   '>
-             <Card  className=' border-dark border'>
-             <Card.Header><h4 className='text-heavy'>{item.topic}</h4></Card.Header>
+          <li key={item._id}  className='mb-3'>
+             <Card className='bg-light border'>
+             <Card.Header className='text-heavy bg-light'><h5 >{item.topic}</h5></Card.Header>
       <Card.Body>
          
         <Card.Text>
-      <p className='text-heavy'>{ item.detail} </p> 
+      <p>{ item.detail} </p> 
         </Card.Text>
-        <p className="news-date text-dark"><Moment format='MMMM Do YYYY, h:mm:ss a'>{item.date}</Moment></p> 
+        <p className="news-date font-heavy font-s color-nav mb-0 mt-3"><Moment format='MMMM Do YYYY, h:mm:ss a'>{item.date}</Moment></p> 
       </Card.Body>  
     </Card>  
              

@@ -31,7 +31,7 @@ const Login = ({verify,isAuthenticated}) => {
   return (
     <Fragment >
        <div className='container'>
-      <h1 className="large text-primary">Verify</h1>
+      <h1 className="large color-nav">Verify</h1>
       <p className="lead"><i className="fas fa-user"></i> Verify To Get In</p>
       <form className="form" onSubmit={e=>onSubmit(e)}>
         <div className="form-group">
@@ -55,6 +55,16 @@ const Login = ({verify,isAuthenticated}) => {
         </div>
         <input type="submit" className="btn btn-primary" value="Verify" />
       </form>
+      <div className="bottom-section mt-5">
+        <h2>Ready to Start Trading?</h2>
+        <p>
+          Whether you're a beginner or an experienced trader, our platform provides the tools and resources you need to make informed investment decisions.
+        </p>
+        <p>
+          Join us today and explore the world of trading with confidence.
+        </p>
+        <h4 className=" color-nav">Sign Up and Start Trading</h4>
+      </div>
        </div>
   </Fragment>
   )

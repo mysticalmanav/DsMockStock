@@ -9,7 +9,7 @@ export const loadUser =  ()=>async dispatch =>{
         setAuthToken(localStorage.token);
     
     try{
-        const res = await axios.get('https://dsmockstock.onrender.com/api/auth');
+        const res = await axios.get('https://freshersmockstock.onrender.com/api/auth');
         dispatch({
             type:USER_LOADED,
             payload:res.data
@@ -30,7 +30,7 @@ export const verify = ({ email, code }) => async dispatch => {
     }
     const body = JSON.stringify({email ,code });
     try {
-        const res = await axios.post('https://dsmockstock.onrender.com/api/auth', body, config);
+        const res = await axios.post('https://freshersmockstock.onrender.com/api/auth', body, config);
         dispatch({
             type:VERIFICATION_SUCCESS ,
             payload: res.data
@@ -38,7 +38,8 @@ export const verify = ({ email, code }) => async dispatch => {
 
     }
     catch (error) {
-        const errors = error.response.data.errors;
+        let errors;
+        if(error.response)  errors = error.response.data.errors;
         if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
         }

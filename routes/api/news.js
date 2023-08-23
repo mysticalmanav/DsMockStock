@@ -5,6 +5,8 @@ const User = require("../../models/User");
  
   
 const News = require("../../models/News");
+const Portfolio = require("../../models/Portfolio");
+const Stock = require("../../models/Stock");
 //@route  Post api/posts
 //@desc   create a post
 //@access private
@@ -50,6 +52,88 @@ router.get("/", async (req, res) => {
       const news = await News.find().sort({ date: -1 });
       res.json(news);
     } catch (err) {
+      console.log(err);
+      res.status(500).send("Server error");
+    }
+  });
+router.put("/round/end", async (req, res) => {
+    try {
+      const portfolios = await Portfolio.find();
+     
+
+      portfolios.forEach(async (portfolio) => {
+        const aggregatedStocks = {};
+        portfolio.currentstock.forEach((stock) => {
+          if (stock!=null&&!aggregatedStocks[stock.stockid]) {
+            aggregatedStocks[stock.stockid] = stock.amount;
+          } else if(stock!=null) {
+            aggregatedStocks[stock.stockid] += stock.amount;
+          }
+         
+        });
+        const round = Object.keys(aggregatedStocks).map((stockid) => ({
+          stockid,
+          amount: aggregatedStocks[stockid],
+        }));
+         portfolio.round.unshift(round);
+         await portfolio.save();
+      });
+    
+      
+    
+      
+      
+      
+  res.json('SUCCESS');
+    } catch (err) { 
+      console.log(err);
+      res.status(500).send("Server error");
+    }
+  });
+router.put("/contest/end", async (req, res) => {
+    try {
+      const portfolios = await Portfolio.find();
+      const dividends = [8,7.5,10,6,7,5,6];
+      const stocks  = await Stock.find();
+      portfolios.forEach(async (portfolio) => {
+        const aggregatedStocks = {};
+        portfolio.round.forEach((round) => {
+          round.forEach((stock)=>{ 
+          if (!aggregatedStocks[stock.stockid]) {
+            aggregatedStocks[stock.stockid] = stock.amount;
+          } else {
+            aggregatedStocks[stock.stockid] = Math.min(stock.amount,aggregatedStocks[stock.stockid]);
+          }})
+         
+         
+        });
+         let increase = 0;
+         stocks.forEach((stock,index)=>{
+          const stockId = stock._id.toString(); // Convert the ObjectId to a string
+          if(index >= dividends.length || !(aggregatedStocks[stockId])){
+              // ...
+          }
+          else{
+              increase += (dividends[index] * aggregatedStocks[stockId] * parseInt(stock.price)) / 100;
+          }
+      })
+         const user  =await  User.findById(portfolio.DmStockuser);
+          if(user){
+         let balance = parseInt(user.balance);
+        balance += (increase);
+        
+        user.balance = balance.toString(); 
+        
+         await user.save();}    
+      }); 
+    
+      
+    
+      
+      
+      
+  res.json('SUCCESS');
+    } catch (err) {  
       console.log(err);
       res.status(500).send("Server error");
     }

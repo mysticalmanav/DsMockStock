@@ -59,14 +59,13 @@ router.post('/', [
                     id:user._id
                 }
             }
-            const user1 = await User.findOne({email:email});
-
+            
             jwt.sign(payload,
                 config.get('jwtSecret'),
                 {expiresIn:3600000}, 
                 (err,token)=>{
                     if(err) throw err;
-                    res.json({token,user1});
+                    return res.json({token});
                 }
                  
             )
@@ -105,7 +104,7 @@ router.post('/', [
             await portfolio.save();
             const user1 = user;
             const payload = {
-                user:{
+                user:{ 
                     id:user.id
                 }
             }
