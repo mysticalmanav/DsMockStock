@@ -91,7 +91,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
            Check Past Transactions
           </button>
           <p className='stck-label mb-0 mt-2'>Below is a list of stocks you currently own:</p>
-          <p className='mb-0 text-warning mt-2'>! You gets 10% dividends on your stock in particular Intervals. For now you will get it on the end of contest on stocks you holded in all the rounds.</p>
+          <p className='mb-0 text-warning mt-2 mx-2'>! You gets 10% dividends on your stock in particular Intervals. For now you will get it on the end of contest on stocks you holded in all the rounds.</p>
         </div>
         {screenWidth>777&&<div className="col-md-4 d-flex justify-content-end align-items-start">
             <img src={img} alt='' className="portfolio-image me-5 mt-2" />

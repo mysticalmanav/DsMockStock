@@ -187,7 +187,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
               required
             />
           </div>
-          <h5 className='mb-1'>Transaction Amount: ${calculateTransactionPrice()}</h5>
+          <h5 className='my-2'>Transaction Amount: ${calculateTransactionPrice()}</h5>
           {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }  > 
             {transactionType === 'buy' ? 'Buy' : 'Sell'}
           </button>:<button class="btn btn-success" type="button" disabled>
