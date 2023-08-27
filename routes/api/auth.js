@@ -79,7 +79,7 @@ router.post('/', [
         
             })
             
-            const balance = '150000';
+            const balance = '1500000';
              user = User({
                 email,
                 code,
