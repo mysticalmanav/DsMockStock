@@ -364,6 +364,10 @@ img {
 .font-heavy{
   font-weight: 600;
 }
+.font-heavy-l{
+  font-weight: 600;
+  font-size: larger;
+}
 .color-nav{
   color:#7771ed ;
  
@@ -371,6 +375,11 @@ img {
 .email-label{
   font-size: medium;
   font-weight: 400;
+  color: #7771ed;
+}
+.stck-label{
+  font-size: larger;
+  font-weight: 600;
   color: #7771ed;
 }
 .btn-danger,

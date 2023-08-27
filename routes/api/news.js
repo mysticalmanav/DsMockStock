@@ -93,7 +93,7 @@ router.put("/round/end", async (req, res) => {
 router.put("/contest/end", async (req, res) => {
     try {
       const portfolios = await Portfolio.find();
-      const dividends = [8,7.5,10,6,7,5,6];
+       
       const stocks  = await Stock.find();
       portfolios.forEach(async (portfolio) => {
         const aggregatedStocks = {};
@@ -110,11 +110,11 @@ router.put("/contest/end", async (req, res) => {
          let increase = 0;
          stocks.forEach((stock,index)=>{
           const stockId = stock._id.toString(); // Convert the ObjectId to a string
-          if(index >= dividends.length || !(aggregatedStocks[stockId])){
+          if( !(aggregatedStocks[stockId])){
               // ...
           }
           else{
-              increase += (dividends[index] * aggregatedStocks[stockId] * parseInt(stock.price)) / 100;
+              increase += ( aggregatedStocks[stockId] * parseInt(stock.price)) / 10;
           }
       })
          const user  =await  User.findById(portfolio.DmStockuser);

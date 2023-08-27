@@ -13,10 +13,11 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   const [selectedStock, setSelectedStock] = useState(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    
     getStocks();
    getPortfolio();
    if(localStorage.stockid&&stocks.length>0){
+    window.scrollTo(0, 0);
     const sto = stocks.find((stock)=>stock&& stock._id===localStorage.stockid);
      setSelectedStock(sto); 
      localStorage.removeItem('stockid');
@@ -125,18 +126,25 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   return loading || stocks === null ? (
     <Spinner/>
   ) : (
-    <div className='py-3 p-1'>
+    
+    <div className='py-3 p-1 text-heavy'>
     <div className="mb-2 container rounded p-1 mt-2" id= 'selcted'>
       <form>
        {selectedStock && (
         <div className="transaction-section" >
-          <h3>Selected Stock: {selectedStock.name}</h3>
-          <p>Curently Holded: { findCurrentHolds(selectedStock) }</p>
-          <p>Price: ${selectedStock.price}</p>
-          <p>Price Change: ${calculatePriceChange(selectedStock) }</p>
-          <div className="form-group">
-            <label htmlFor="transactionType">Select Transaction Type:</label>
-            <div className="radio-container">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static"> 
+        <span className='email-label my-0'>Selected Stock: </span>
+          <h3 >{selectedStock.name}</h3>
+          <div class="mb-1  email-label">Currently Held: </div>
+          <h5>{findCurrentHolds(selectedStock)}</h5>
+
+          <p className='email-label my-0'>Price Change:</p>
+
+          <p class="card-text mb-auto"> {calculatePriceChange(selectedStock)>=0? <p className='text-success'>${calculatePriceChange(selectedStock)}</p>:<p className='text-danger'>${calculatePriceChange(selectedStock)}</p>}</p>
+          <p className='email-label my-0'>Price:</p>
+          <h2>${selectedStock.price}</h2>
+          <div className="radio-container">
   <div className="form-check form-check-inline">
     <input
       type="radio"
@@ -164,25 +172,22 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     <label className="form-check-label" htmlFor="sellRadio">
       Sell
     </label>
-  </div>
-</div>
-
-
-          </div>
-          <div className="form-group">
-            <label htmlFor="quantity">Select Quantity:</label>
+    </div>
+    <div className="form-group">
+            <label htmlFor="quantity" className='email-label mt-1'>Select Quantity:</label>
             <input
               type="number"
-              className="form-control"
+              className="form-control w-25"
               id="quantity"
               value={selectedQuantity}
               onChange={handleQuantityChange}
               min={0}
               max={selectedStock.quantity}
+              
               required
             />
           </div>
-          <p>Total Price: ${calculateTransactionPrice()}</p>
+          <h5 className='mb-1'>Transaction Amount: ${calculateTransactionPrice()}</h5>
           {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }  > 
             {transactionType === 'buy' ? 'Buy' : 'Sell'}
           </button>:<button class="btn btn-success" type="button" disabled>
@@ -190,7 +195,16 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   <span class="sr-only">Loading...</span>
 </button>}
         </div>
-      )} </form>
+  
+
+        </div>
+         
+      </div>
+    <hr/>
+      </div>
+      
+       )} 
+       </form>
       <h2 className="text-center text-bold my-2">Available Stocks</h2>
       <hr></hr>
       <p className="color-nav font-heavy"> Select a Stock and Start Transaction</p>
@@ -203,7 +217,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
         <div class="col p-4 d-flex flex-column position-static">
           
           <h3 >{stock.name}</h3>
-          <div class="mb-1 text-muted">Currently Holded: {findCurrentHolds(stock)}</div>
+          <div class="mb-1 text-muted">Currently Held: {findCurrentHolds(stock)}</div>
           <p className='email-label my-0'>Price Change:</p>
 
           <p class="card-text mb-auto"> {calculatePriceChange(stock)>=0? <p className='text-success'>${calculatePriceChange(stock)}</p>:<p className='text-danger'>${calculatePriceChange(stock)}</p>}</p>

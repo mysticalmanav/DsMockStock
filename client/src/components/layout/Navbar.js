@@ -80,10 +80,10 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
   );
 
   return (
-    <Navbar expand="sm" className="bg-nav navbar-dark">
+    <Navbar expand="sm" className="bg-nav navbar-dark" >
 
       
-      <Navbar.Brand   href="/"> {'  '}<i class="fa-brands fa-square-lastfm ms-2"></i>{'    '} FreshersMockStock</Navbar.Brand>
+      <Navbar.Brand  className="me-5 ms-2" href="/dashboard"> {'  '}<i class="fa-brands fa-square-lastfm ms-2"></i>{'    '} FreshersMockStock</Navbar.Brand>
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
        

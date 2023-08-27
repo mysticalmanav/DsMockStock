@@ -17,8 +17,8 @@ const StockMarketNews = ({ news:{news,loading},getNews }) => {
       ) : (
         <div className='pt-2'>
     <div className="stock-market-news container borderd rounded mt-2 mx-auto">
-      <h3 className='text-center p-2'>News</h3> 
-      <p className='color-nav font-heavy text-center'>Its news till its new.</p>
+      <h2 className='text-center p-2'>News</h2> 
+      <p className='color-nav font-heavy-l text-center'>Its news till its new.</p>
     <div className='px-2'><Link to='/stocks' ><button
             className="btn btn-md btn-outline-primary my-3"
              

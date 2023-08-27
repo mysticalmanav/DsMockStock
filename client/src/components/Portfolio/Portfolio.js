@@ -7,9 +7,25 @@ import { useNavigate } from 'react-router-dom';
 import Moment from 'react-moment';
 import { getStocks } from '../../actions/stocks';
 import Spinner from '../layout/Spinner';
-
+import img from "./Portfolio.png"
+import { useState } from 'react';
 const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add a listener for the "resize" event
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
    
@@ -49,35 +65,43 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
   ) : (
     <div className=' py-3 p-1'>
       <div className="container mt-0 pt-3 font-heavy ">
-
-        <div className="mb-4">
+      <p className='text-center font-heavy'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
+  <div className='row mb-4'>
+        <div className="my-auto col-md-8">
           
            
-          <p className='text-center font-heavy'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
+          
           <p className='my-0 email-label'>Email:</p>
           <p className='email'>{portfolio.DmStockuser.email}</p>
           <p className='my-0 email-label'>Cash Balance:</p>
           <p className='balance'> ${portfolio.DmStockuser.balance}</p>
-          <p className='my-0 email-label'>Your Portfolio Value : </p>
+          <p className='my-0 email-label'>Net Worth : </p>
           <p className='balance'> ${parseFloat(portfolio.DmStockuser.balance)+calculatePortfolio()}</p>
-           
-        </div>
-         To Start a Transaction click on the button below.
-
-        <div className="mb-4">
+          <p>To Start a Transaction click on the button below.</p>
           <button
-            className="btn btn-md btn-outline-dark my-2"
+            className="btn btn-md btn-outline-primary my-2"
             onClick={() => navigate('/stocks')}
           >
             Buy and Sell Stocks
           </button>
           <button
-            className="btn btn-md btn-outline-dark my-2"
+            className="btn btn-md btn-outline-primary my-2"
             onClick={() => navigate('/transactions')}
           >
            Check Past Transactions
           </button>
-  <p className='email-label'>Below is a list of stocks you currently own:</p>
+          <p className='stck-label mb-0 mt-2'>Below is a list of stocks you currently own:</p>
+          <p className='mb-0 text-warning mt-2'>! You gets 10% dividends on your stock in particular Intervals. For now you will get it on the end of contest on stocks you holded in all the rounds.</p>
+        </div>
+        {screenWidth>777&&<div className="col-md-4 d-flex justify-content-end align-items-start">
+            <img src={img} alt='' className="portfolio-image me-5 mt-2" />
+          </div>}
+          </div>
+        
+ 
+        <div className="mb-4"> 
+          
+  
 
           <h1 className='text-dark mt-3 mb-3 hold'>Your Holdings : </h1>
           <div className="table-responsive rounded bg-transparent">
