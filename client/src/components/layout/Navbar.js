@@ -80,7 +80,7 @@ const Navbar_ = ({ auth: { isAuthenticated, loading },logout }) => {
   );
 
   return (
-    <Navbar expand="sm" className="bg-nav navbar-dark" >
+    <Navbar expand="sm" className="bg-nav navbar-dark navbar-fixed" style ={{ boxShadow: "rgb(0 0 0 / 71%) 0px 2px 4px 0px"}}>
 
       
       <Navbar.Brand  className="me-5 ms-2" href="/dashboard"> {'  '}<i class="fa-brands fa-square-lastfm ms-2"></i>{'    '} FreshersMockStock</Navbar.Brand>

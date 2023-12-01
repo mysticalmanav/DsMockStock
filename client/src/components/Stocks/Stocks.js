@@ -7,7 +7,7 @@ import {  useNavigate } from "react-router-dom";
 import { setAlert } from '../../actions/alert';
 import { getPortfolio } from '../../actions/userprofile';
 import Spinner from '../layout/Spinner';
- 
+import encrypt from '../bgimg/encrypt.jpg'
 
 const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { stocks, loading }, getStocks ,buyStock,sellStock,getPortfolio}) => {
   const [selectedStock, setSelectedStock] = useState(null);
@@ -141,9 +141,9 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
 
           <p className='email-label my-0'>Price Change:</p>
 
-          <p class="card-text mb-auto"> {calculatePriceChange(selectedStock)>=0? <p className='text-success'>${calculatePriceChange(selectedStock)}</p>:<p className='text-danger'>${calculatePriceChange(selectedStock)}</p>}</p>
+          <p class="card-text mb-auto"> {calculatePriceChange(selectedStock)>=0? <p className='text-success'>₹ {calculatePriceChange(selectedStock)}</p>:<p className='text-danger'>₹ {calculatePriceChange(selectedStock)}</p>}</p>
           <p className='email-label my-0'>Price:</p>
-          <h2>${selectedStock.price}</h2>
+          <h2>₹ {selectedStock.price}</h2>
           <div className="radio-container">
   <div className="form-check form-check-inline">
     <input
@@ -187,7 +187,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
               required
             />
           </div>
-          <h5 className='my-2'>Transaction Amount: ${calculateTransactionPrice()}</h5>
+          <h5 className='my-2'>Transaction Amount: ₹ {calculateTransactionPrice()}</h5>
           {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }  > 
             {transactionType === 'buy' ? 'Buy' : 'Sell'}
           </button>:<button class="btn btn-success" type="button" disabled>
@@ -198,7 +198,8 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   
 
         </div>
-         
+       <div className="text-center email-label"style={{width: "60%" }}> <img className="card-img-right flex-auto d-none d-md-block" src={encrypt}  data-holder-rendered="true" ></img>
+        * Secure transactions with encrypted network</div>
       </div>
     <hr/>
       </div>
@@ -220,9 +221,9 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
           <div class="mb-1 text-muted">Currently Held: {findCurrentHolds(stock)}</div>
           <p className='email-label my-0'>Price Change:</p>
 
-          <p class="card-text mb-auto"> {calculatePriceChange(stock)>=0? <p className='text-success'>${calculatePriceChange(stock)}</p>:<p className='text-danger'>${calculatePriceChange(stock)}</p>}</p>
+          <p class="card-text mb-auto"> {calculatePriceChange(stock)>=0? <p className='text-success'>₹ {calculatePriceChange(stock)}</p>:<p className='text-danger'>₹ {calculatePriceChange(stock)}</p>}</p>
           <p className='email-label my-0'>Price:</p>
-          <h2>${stock.price}</h2>
+          <h2>₹ {stock.price}</h2>
           <a href='#top'> <button
               className="btn btn-outline-primary"
               onClick={() => handleStockSelect(stock)}

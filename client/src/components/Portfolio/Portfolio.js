@@ -74,9 +74,9 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
           <p className='my-0 email-label'>Email:</p>
           <p className='email'>{portfolio.DmStockuser.email}</p>
           <p className='my-0 email-label'>Cash Balance:</p>
-          <p className='balance'> ${portfolio.DmStockuser.balance}</p>
+          <p className='balance'> ₹ {portfolio.DmStockuser.balance}</p>
           <p className='my-0 email-label'>Net Worth : </p>
-          <p className='balance'> ${parseFloat(portfolio.DmStockuser.balance)+calculatePortfolio()}</p>
+          <p className='balance'> ₹ {parseFloat(portfolio.DmStockuser.balance)+calculatePortfolio()}</p>
           <p>To Start a Transaction click on the button below.</p>
           <button
             className="btn btn-md btn-outline-primary my-2"
@@ -121,11 +121,11 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
                 {portfolio.currentstock.length >0&&portfolio.currentstock.filter(x => x==null).length!==portfolio.currentstock.length? portfolio.currentstock.map((stock) => (
                     stock!=null&&<tr key={stock._id}>
                     <td>{stock.name}</td>
-                    <td>${getCurrentPrice(stock.stockid)}</td>
-                    <td>${stock.price} </td>
+                    <td>₹ {getCurrentPrice(stock.stockid)}</td>
+                    <td>₹ {stock.price} </td>
                     <td>{stock.amount}</td>
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
-                    <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>${calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>${calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
+                    <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
                     <td>   <button
             className="btn btn-md btn-outline-primary"
             onClick={()=>sendTosell(stock.stockid)}
