@@ -41,9 +41,9 @@ const TransactionHistory = ({ userprofile:{portfolio ,loading},getPortfolio}) =>
                 <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{transaction.date}</Moment></td>
                 <td>${transaction.balance }</td>
                 <td>{transaction.name}</td>
-                <td>${transaction.price }</td>
+                <td>₹ {transaction.price }</td>
                 <td>{transaction.amount}</td>
-                <td>${!(transaction.buy)?(<span className='text-success'>{(transaction.amount)*(transaction.price)}</span>):(<span className='text-danger'>-{(transaction.amount)*(transaction.price)}</span>)}</td>
+                <td>₹ {!(transaction.buy)?(<span className='text-success'>{(transaction.amount)*(transaction.price)}</span>):(<span className='text-danger'>-{(transaction.amount)*(transaction.price)}</span>)}</td>
               </tr>
             ))}
           </tbody>
