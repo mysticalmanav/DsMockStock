@@ -63,7 +63,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
   return (loading || portfolio === null) ? (
    <Spinner/>
   ) : (
-    <div className=' py-3 p-1'>
+    <div className=' py-3 p-1 mt-5'>
       <div className="container mt-0 pt-3 font-heavy ">
       <p className='text-center font-heavy'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
   <div className='row mb-4'>

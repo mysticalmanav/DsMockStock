@@ -16,8 +16,8 @@ const TransactionHistory = ({ userprofile:{portfolio ,loading},getPortfolio}) =>
 
   return loading || portfolio === null ? (
   <Spinner/>
-  ) : (<div className="container mt-4 bg-trans">
-      <h2>Transaction History</h2>
+  ) : (<div className="container mt-5 py-3 bg-trans">
+      <h2 className='text-center'>Transaction History</h2>
       {portfolio.stocks.length===0&&<p className='text-center p-1'> Nothing to show here. Please <Link to='/stocks'>start transactions</Link>. </p>}
       <div className="table-responsive ">
         <table className="table table-bordered table-hover">

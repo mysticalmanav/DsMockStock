@@ -41,7 +41,7 @@ export const verify = ({ email, code }) => async dispatch => {
         let errors;
         if(error.response)  errors = error.response.data.errors;
         if (errors) {
-            errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+            errors.forEach(error => dispatch(setAlert(error.msg, 'error')));
         }
         dispatch({
             type: VERIFICATION_FAIL

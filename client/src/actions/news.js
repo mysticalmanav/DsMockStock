@@ -14,7 +14,7 @@ export const getNews =  ()=>async dispatch =>{
             type:GET_NEWS,
             payload:res.data
         });
-        dispatch(setAlert("News section update , Check it now, Stay informed with the latest twists and turns of the market - where news and investments intersect.", 'primary'));
+        dispatch(setAlert("News section update , Check it now, Stay informed with the latest twists and turns of the market - where news and investments intersect.", 'default'));
 
     }
     catch(err){
@@ -46,7 +46,7 @@ export const addNews = ({ topic,text,code2  }) => async dispatch => {
        
         const errors = error.response.data.errors;
         console.error(error);
-        if(error) {dispatch(setAlert('Invalid Credentials', 'danger'))
+        if(error) {dispatch(setAlert('Invalid Credentials', 'error'))
         dispatch({
 
             type: NEWS_ERROR,
@@ -77,7 +77,7 @@ export const endRound = () => async dispatch => {
        
         const errors = error.response.data.errors;
         console.error(error);
-        if(error) {dispatch(setAlert('Failed to end round', 'danger'))
+        if(error) {dispatch(setAlert('Failed to end round', 'error'))
         dispatch({
 
             type: END_ERROR,
@@ -108,7 +108,7 @@ export const endContest = () => async dispatch => {
        
         const errors = error.response.data.errors;
         console.error(error);
-        if(error) {dispatch(setAlert('Failed to end contest', 'danger'))
+        if(error) {dispatch(setAlert('Failed to end contest', 'error'))
         dispatch({
 
             type: END_ERROR,

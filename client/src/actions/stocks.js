@@ -44,7 +44,7 @@ export const addStock = ({ name, price,code }) => async dispatch => {
       
         const errors = error.response.data.errors;
         console.error(error);
-        if(error) {dispatch(setAlert('Invalid Credentials', 'danger'))
+        if(error) {dispatch(setAlert('Invalid Credentials', 'error'))
         dispatch({
 
             type: STOCK_ERROR,
@@ -63,11 +63,11 @@ export const buyStock =  ({stock,balance,amount})=>async dispatch =>{
     try{
         
         if((balance)<0){
-            dispatch(setAlert('Insufficient balance', 'warning'));
+            dispatch(setAlert('Insufficient balance', 'default'));
 
         }
         else if(amount===0||amount==null){
-            dispatch(setAlert('Insufficient amount of stock for purachasing.', 'warning'));
+            dispatch(setAlert('Insufficient amount of stock for purachasing.', 'default'));
         }
         else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/buy',body,config);
         
@@ -106,10 +106,10 @@ export const sellStock =  ({stock,currentstock,balance,amount})=>async dispatch 
     try{
 
         if(totalamount<amount){
-            dispatch(setAlert('Insufficient stocks to sell', 'warning'));
+            dispatch(setAlert('Insufficient stocks to sell', 'default'));
         }
         else if(amount===0||amount===null){
-            dispatch(setAlert('Insufficient amount of stock for selling.', 'warning'));
+            dispatch(setAlert('Insufficient amount of stock for selling.', 'default'));
         }
         else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/sell',body,config);
         

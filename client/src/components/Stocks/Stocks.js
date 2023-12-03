@@ -127,7 +127,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     <Spinner/>
   ) : (
     
-    <div className='py-3 p-1 text-heavy'>
+    <div className='py-3 p-1 text-heavy mt-5'>
     <div className="mb-2 container rounded p-1 mt-2" id= 'selcted'>
       <form>
        {selectedStock && (
@@ -198,7 +198,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   
 
         </div>
-       <div className="text-center email-label"style={{width: "60%" }}> <img className="card-img-right flex-auto d-none d-md-block" src={encrypt}  data-holder-rendered="true" ></img>
+       <div className="text-center card-img-right d-none d-md-block email-label"style={{width: "50%" }}> <img className="card-img-right flex-auto d-none d-md-block" src={encrypt}  data-holder-rendered="true" ></img>
         * Secure transactions with encrypted network</div>
       </div>
     <hr/>

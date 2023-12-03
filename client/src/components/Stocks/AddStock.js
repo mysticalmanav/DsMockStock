@@ -94,7 +94,7 @@ const AddStockForm = ({ addStock, addNews, stocks, getStocks,endContest,endRound
 
   return (
     <div>
-          <div className="container mt-4">
+          <div className="container mt-5">
       <h2>Add New Stock or Update Stock price</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

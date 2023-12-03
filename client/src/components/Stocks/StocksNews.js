@@ -15,7 +15,7 @@ const StockMarketNews = ({ news:{news,loading},getNews }) => {
     return loading || news === null ? (
        <Spinner/>
       ) : (
-        <div className='pt-2'>
+        <div className='pt-2 mt-5'>
     <div className="stock-market-news container borderd rounded mt-2 mx-auto">
       <h2 className='text-center p-2'>News</h2> 
       <p className='color-nav font-heavy-l text-center'>Its news till its new.</p>
