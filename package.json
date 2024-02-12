@@ -22,6 +22,8 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.3",
     "react-bootstrap": "^2.8.0",
+    "react-hot-toast": "^2.4.1",
+    "react-toastify": "^10.0.4",
     "react-uuid": "^2.0.0",
     "request": "^2.88.2"
   },

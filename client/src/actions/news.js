@@ -9,7 +9,7 @@ export const getNews =  ()=>async dispatch =>{
          
     
     try{
-        const res = await axios.get('https://freshersmockstock.onrender.com/api/news');
+        const res = await axios.get('http://localhost:4000/api/news');
         dispatch({
             type:GET_NEWS,
             payload:res.data
@@ -34,7 +34,7 @@ export const addNews = ({ topic,text,code2  }) => async dispatch => {
     const body = JSON.stringify({topic, detail,code2 });
     try {
           
-        const res = await axios.post('https://freshersmockstock.onrender.com/api/news', body, config);
+        const res = await axios.post('http://localhost:4000/api/news', body, config);
         dispatch({
             type: ADD_NEWS,
             payload: res.data 
@@ -65,12 +65,42 @@ export const endRound = () => async dispatch => {
      
     try {
           
-        const res = await axios.put('https://freshersmockstock.onrender.com/api/news/round/end');
+        const res = await axios.put('http://localhost:4000/api/news/round/end');
         dispatch({
             type: ROUND_END,
             payload: res.data 
         });
         dispatch(setAlert("Round Ended", 'success'));
+
+    }
+    catch (error) {
+       
+        const errors = error.response.data.errors;
+        console.error(error);
+        if(error) {dispatch(setAlert('Failed to end round', 'error'))
+        dispatch({
+
+            type: END_ERROR,
+            payload:error.message
+        })}
+    }
+}  
+export const shortSold = () => async dispatch => {
+    const config = { 
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+     
+     
+    try {
+          
+        const res = await axios.put('http://localhost:4000/api/news/short-sell');
+        dispatch({
+            type: ROUND_END,
+            payload: res.data 
+        });
+        dispatch(setAlert("Short Sell evauluated", 'success'));
 
     }
     catch (error) {
@@ -96,7 +126,7 @@ export const endContest = () => async dispatch => {
      
     try {
           
-        const res = await axios.put('https://freshersmockstock.onrender.com/api/news/contest/end');
+        const res = await axios.put('http://localhost:4000/api/news/contest/end');
         dispatch({
             type: ROUND_END,
             payload: res.data 

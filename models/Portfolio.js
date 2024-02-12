@@ -55,6 +55,11 @@ const ProfileSchema = new mongoose.Schema({
             type:Number,
             required:true
            }
+           ,  
+           short:{
+            type:Boolean,
+             
+           }
             
     }],
     round:[[{

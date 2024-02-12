@@ -37,14 +37,14 @@ const TransactionHistory = ({ userprofile:{portfolio ,loading},getPortfolio}) =>
           <tbody>
             {portfolio.stocks.map(transaction => (
               <tr key={transaction.id}>
-                <td>{transaction.buy?'Bought':'Sold'}</td>
+                <td>{transaction.buy?'Bought':transaction.sell?'Sold':"Short Sold"}</td>
                 <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{transaction.date}</Moment></td>
                 <td>${transaction.balance }</td>
                 <td>{transaction.name}</td>
                 <td>₹ {transaction.price }</td>
                 <td>{transaction.amount}</td>
-                <td>₹ {!(transaction.buy)?(<span className='text-success'>{(transaction.amount)*(transaction.price)}</span>):(<span className='text-danger'>-{(transaction.amount)*(transaction.price)}</span>)}</td>
-              </tr>
+                <td>₹ {(transaction.sell)?(<span className='text-success'>{(transaction.amount)*(transaction.price)}</span>): transaction.buy?(<span className='text-danger'>-{(transaction.amount)*(transaction.price)}</span>):<span className='text-warning'>{(transaction.amount)*(transaction.price)}</span>}</td>
+              </tr> 
             ))}
           </tbody>
         </table>

@@ -119,13 +119,13 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
               </thead>
               <tbody>
                 {portfolio.currentstock.length >0&&portfolio.currentstock.filter(x => x==null).length!==portfolio.currentstock.length? portfolio.currentstock.map((stock) => (
-                    stock!=null&&<tr key={stock._id}>
+                    stock!=null&&stock.amount!=0&&<tr key={stock._id}>
                     <td>{stock.name}</td>
                     <td>₹ {getCurrentPrice(stock.stockid)}</td>
                     <td>₹ {stock.price} </td>
-                    <td>{stock.amount}</td>
+                    <td>{stock.amount}</td> 
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
-                    <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
+                    {(stock.short&&stock.short==true)?<td className="text-warning"> ShortSold</td>:<td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>}
                     <td>   <button
             className="btn btn-md btn-outline-primary"
             onClick={()=>sendTosell(stock.stockid)}

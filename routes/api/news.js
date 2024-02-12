@@ -138,4 +138,59 @@ router.put("/contest/end", async (req, res) => {
       res.status(500).send("Server error");
     }
   });
+  router.put("/short-sell", async (req, res) => {
+    try {
+      const portfolios = await Portfolio.find();
+      
+      // Loop through each portfolio
+      for (let portfolio of portfolios) {
+        // Find the user associated with the portfolio
+        let user = await User.findById(portfolio.DmStockuser);
+        
+        if (user) {
+          // Loop through stocks in the current portfolio
+          for (let stock of portfolio.currentstock) {
+            if (stock !== null &&stock.short&&stock.amount&& stock.short == true) {
+              // Find stock details
+              const stockDetails = await Stock.findById(stock.stockid);
+               
+              if (stockDetails) {
+                // Update user balance
+                user.balance = parseInt(user.balance) + parseInt(stock.amount) * (parseInt(stock.price) - parseInt(stockDetails.price));
+
+                
+                // Create transaction
+                const transaction = {
+                  name: stock.name,
+                  price: stockDetails.price,
+                  amount: stock.amount, // Update amount calculation
+                  balance: user.balance,
+                  buy: false,
+                  sell: false
+                };
+                
+                // Add transaction to portfolio stocks
+                portfolio.stocks.unshift(transaction);
+                
+                // Reset stock amount
+                stock.amount = 0;
+              }
+            }
+          }
+          
+    
+          await user.save();
+          console.log(user);         
+          await portfolio.save();
+        }
+      }
+       
+      res.json({ message: "Success." });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  });
+  
+  
 module.exports = router;

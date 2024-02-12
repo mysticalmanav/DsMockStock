@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getStocks,buyStock, sellStock } from '../../actions/stocks';
+import { getStocks,buyStock, sellStock ,shortStock} from '../../actions/stocks';
 import {  useNavigate } from "react-router-dom";
 import { setAlert } from '../../actions/alert';
 import { getPortfolio } from '../../actions/userprofile';
 import Spinner from '../layout/Spinner';
 import encrypt from '../bgimg/encrypt.jpg'
 
-const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { stocks, loading }, getStocks ,buyStock,sellStock,getPortfolio}) => {
+const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { stocks, loading }, getStocks ,buyStock,sellStock,getPortfolio,shortStock}) => {
   const [selectedStock, setSelectedStock] = useState(null);
-
+ 
   useEffect(() => {
     
     getStocks();
@@ -107,6 +107,26 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
      
     setisClicked(false);
   }
+  const shortsStock =async ()=>{
+    setisClicked(true);
+    let balance;
+    if(!isAuthenticated){
+      navigate('/');
+  }
+  
+   if(portfolio!=null)  balance = portfolio.DmStockuser.balance;
+ 
+   
+   
+    const amount  = selectedQuantity;
+     
+    const stock = selectedStock;
+    
+    await shortStock({stock,balance,amount}); 
+    setSelectedQuantity(0);
+     
+    setisClicked(false);
+  }
  
   const calculatePriceChange = (stck) => {
     if (stck && stck.past ) {
@@ -162,6 +182,20 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
   <div className="form-check form-check-inline">
     <input
       type="radio"
+      className="form-check-input"
+      name="transactionType"
+      id="shortRadio"
+      value="short"
+      checked={transactionType === 'short'}
+      onChange={handleTransactionTypeChange}
+    />
+    <label className="form-check-label" htmlFor="shortRadio">
+      Short Sell
+    </label>
+  </div>   
+  <div className="form-check form-check-inline"> 
+    <input
+      type="radio"    
       className="form-check-input success"
       name="transactionType"
       id="sellRadio"
@@ -188,7 +222,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
             />
           </div>
           <h5 className='my-2'>Transaction Amount: ₹ {calculateTransactionPrice()}</h5>
-          {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : ()=>{sendsellStock()} }  > 
+          {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : transactionType==='sell'?()=>{sendsellStock()}:()=>{shortsStock()} }  > 
             {transactionType === 'buy' ? 'Buy' : 'Sell'}
           </button>:<button class="btn btn-success" type="button" disabled>
   <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -263,6 +297,7 @@ StockList.propTypes = {
   auth:PropTypes.object.isRequired,
   userprofile:PropTypes.object.isRequired,
   sellStock:PropTypes.func.isRequired,
+  shortStock:PropTypes.func.isRequired,
   getPortfolio:PropTypes.func.isRequired
   
   
@@ -274,4 +309,4 @@ const mapStateToProps = (state) => ({
   userprofile:state.userprofile
 });
 
-export default connect(mapStateToProps, { getStocks,buyStock,sellStock,getPortfolio })(StockList);
+export default connect(mapStateToProps, { getStocks,buyStock,sellStock,getPortfolio,shortStock })(StockList);

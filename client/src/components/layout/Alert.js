@@ -21,7 +21,17 @@ const Alert_ = ({ alerts }) => {
     });
   }, [alerts]); // empty dependency array for one-time rendering
 
-  return <Toaster position="top-right" />;
+  return <Toaster position="top-right" autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  // style={{ backgroundColor: '#333', color: '#fff', borderRadius: '8px', padding: '100px' }}
+  theme="dark" />;
+  
 };
 
 Alert_.propTypes = {

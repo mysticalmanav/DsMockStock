@@ -17,6 +17,7 @@ app.use("/api/portfolio", require("./routes/api/portfolio"));
 app.use("/api/news", require("./routes/api/news"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/stocks", require("./routes/api/stock"));
+app.use("/api/stocks", require("./routes/api/stock"));
 
 // app.use("/api/posts", require("./routes/api/posts")); 
 //static assets in production
