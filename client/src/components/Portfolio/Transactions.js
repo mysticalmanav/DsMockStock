@@ -39,7 +39,7 @@ const TransactionHistory = ({ userprofile:{portfolio ,loading},getPortfolio}) =>
               <tr key={transaction.id}>
                 <td>{transaction.buy?'Bought':transaction.sell?'Sold':"Short Sold"}</td>
                 <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{transaction.date}</Moment></td>
-                <td>${transaction.balance }</td>
+                <td>₹{transaction.balance }</td>
                 <td>{transaction.name}</td>
                 <td>₹ {transaction.price }</td>
                 <td>{transaction.amount}</td>

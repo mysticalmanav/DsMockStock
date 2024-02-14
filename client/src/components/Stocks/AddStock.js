@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import { addNews, endRound, endContest } from "../../actions/news";
 import { getStocks } from "../../actions/stocks";
 import { shortSold } from "../../actions/news";
+import {Link} from "react-router-dom";
+import axios from "axios"
 const AddStockForm = ({
   addStock,
   addNews,
@@ -251,6 +253,12 @@ const AddStockForm = ({
             End Contest
           </button>
         </a>
+       
+          {" "}
+       <Link to="/result">  <button className="btn btn-primary"  >
+           Result
+          </button></Link>  
+      
         <a href="#top">
           {" "}
           <button className="btn btn-primary" onClick={sendshortsold}>

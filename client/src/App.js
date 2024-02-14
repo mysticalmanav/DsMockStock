@@ -23,6 +23,7 @@ import Footer from "./components/layout/Footer";
 import PrivacyPolicy from "./components/layout/Privacypolicy";
 import AboutUs from "./components/layout/About";
 import NotFoundPage from "./components/layout/Notfound";
+import PortfolioTable from "./components/Portfolio/Result";
 if(localStorage.token){
    setAuthToken(localStorage.token); 
 }
@@ -52,6 +53,7 @@ const App = ( ) => {
               <Route path="/" element={<Login />} />
               <Route path= "/dashboard" element={<PrivateRoute><UserProfile/></PrivateRoute>}/>
               <Route path="/stocks" element={<StockList />} />
+              <Route path="/result" element={<PortfolioTable />} />
               <Route path="/transactions" element={<PrivateRoute><Transactions/></PrivateRoute>} />
               <Route path="/add/stock" element={<AddStockForm />} />
               <Route path="/news" element={<StockMarketNews />} />
