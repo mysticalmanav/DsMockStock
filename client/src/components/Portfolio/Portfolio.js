@@ -9,10 +9,17 @@ import { getStocks } from '../../actions/stocks';
 import Spinner from '../layout/Spinner';
 import img from "./Portfolio.png"
 import { useState } from 'react';
-const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
+import Dialog from './Prompt';
+import setAuthToken from '../../utils/setAuthToken';
+import axios from 'axios';
+import { setAlert } from '../../actions/alert';
+const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) => {
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
+  const [confirm,setTrue] =  useState(false);
+  const [isOpen,setIsOpen] =  useState(false);
+  const [iden,setId] =  useState(false);
+  const [vajr,setVar] =  useState(false);
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
   };
@@ -33,10 +40,64 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
     getStocks();
    
 
-  }, []);
+  }, [vajr]);
+  
+  useEffect(() => {
+   
+     if(confirm){
+        sendTo();
+     }
+   
+
+  }, [confirm]);
   const sendTosell =(id) =>{
     localStorage.setItem('stockid',id);
      navigate('/stocks');
+  }
+  const sendTo = async() =>{
+    try {
+  
+          
+      const res = await axios.put(`http://localhost:4000/api/news/short-sell/${iden}`);
+      setAlert("Position Closed", 'success');
+     
+
+  }
+  catch (error) {
+       
+      
+      console.error(error);
+     if(error) setAlert("Failed to close position", 'error');
+     
+  }
+   setVar(!vajr);
+  }
+  
+  const sendToShort = async (id) =>{
+    setTrue(false);
+    setIsOpen(true);
+    setAuthToken(localStorage.token);
+    setId(id);
+     
+  //   if(confirm){
+  //   let f=0;
+ 
+  //    try {
+  
+          
+  //     const res = await axios.put(`http://localhost:4000/api/news/short-sell/${id}`);
+  //     setAlert("Position Closed", 'success');
+     
+
+  // }
+  // catch (error) {
+       
+      
+  //     console.error(error);
+  //    if(error) setAlert("Failed to close position", 'error');
+     
+  // }
+  //  }
   }
   const calculateProfit = (currentPrice, purchasedPrice, quantity) => {
     return (currentPrice - purchasedPrice) * quantity;
@@ -64,6 +125,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
    <Spinner/>
   ) : (
     <div className=' py-3 p-1 mt-5'>
+      <Dialog setTrue={setTrue} isOpen={isOpen} setIsOpen={setIsOpen}/>
       <div className="container mt-0 pt-3 font-heavy ">
       <p className='text-center font-heavy'>Welcome to your stock market portfolio! Here, you can keep track of your stock holdings and monitor their performance over time.</p>
   <div className='row mb-4'>
@@ -119,18 +181,61 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks }) => {
               </thead>
               <tbody>
                 {portfolio.currentstock.length >0&&portfolio.currentstock.filter(x => x==null).length!==portfolio.currentstock.length? portfolio.currentstock.map((stock) => (
-                    stock!=null&&stock.amount!=0&&<tr key={stock._id}>
+                    stock!=null&&stock.amount!=0&&(!(stock.short))&&<tr key={stock._id}>
                     <td>{stock.name}</td>
                     <td>₹ {getCurrentPrice(stock.stockid)}</td>
                     <td>₹ {stock.price} </td>
                     <td>{stock.amount}</td> 
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
-                    {(stock.short&&stock.short==true)?<td className="text-warning"> ShortSold</td>:<td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>}
+                    <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
                     <td>   <button
             className="btn btn-md btn-outline-primary"
             onClick={()=>sendTosell(stock.stockid)}
           >
           Sell
+          </button>  </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan="6">No data, Please start trading by clicking on buy or sell stocks.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="mb-4"> 
+          
+  
+
+          <h1 className='text-dark mt-3 mb-3 hold'>Short Sold Assets : </h1>
+          <div className="table-responsive rounded bg-transparent">
+            <table className="table table-light border-light text-center">
+              <thead className='color-nav'>
+                <tr >
+                  <th>Name</th>
+                  <th>Current Price</th>
+                  <th>Purchased Price</th>
+                  <th>Quantity</th>
+                  <th>Purchase Date & Time</th> 
+                  <th>Profit</th>
+                  <th>Position</th>
+                </tr>
+              </thead>
+              <tbody>
+                {portfolio.currentstock.length >0&&portfolio.currentstock.filter(x => x==null).length!==portfolio.currentstock.length? portfolio.currentstock.map((stock) => (
+                    stock!=null&&stock.amount!=0&&stock.short&&<tr key={stock._id}>
+                    <td>{stock.name}</td>
+                    <td>₹ {getCurrentPrice(stock.stockid)}</td>
+                    <td>₹ {stock.price} </td>
+                    <td>{stock.amount}</td> 
+                    <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
+                    <td>{calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)>0?<p className='text-success'>₹{calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)}</p>}</td>
+                    <td>   <button
+            className="btn btn-md btn-outline-primary"
+            onClick={()=>sendToShort(stock._id)}
+          >
+         Close Position
           </button>  </td>
                   </tr>
                 )) : (
@@ -162,6 +267,7 @@ UserProfile.propTypes = {
   getPortfolio: PropTypes.func.isRequired,
   userprofile: PropTypes.object.isRequired,
   getStocks: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
   stocks: PropTypes.array.isRequired
 };
 
@@ -170,4 +276,4 @@ const mapStateToProps = (state) => ({
   stocks: state.stocks.stocks
 });
 
-export default connect(mapStateToProps, { getPortfolio, getStocks })(UserProfile);
+export default connect(mapStateToProps, { getPortfolio, getStocks,setAlert })(UserProfile);

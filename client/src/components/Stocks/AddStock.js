@@ -104,7 +104,7 @@ const AddStockForm = ({
 
   return (
     <div>
-      <div className="container mt-5">
+      <div className="container" style={{marginTop:"100px"}}>
         <h2>Add New Stock or Update Stock price</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">

@@ -138,6 +138,72 @@ router.put("/contest/end", async (req, res) => {
       res.status(500).send("Server error");
     }
   });
+  router.put("/short-sell/:stockId",[auth], async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const stockId = req.params.stockId;
+ 
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Find the portfolio associated with the user
+        const portfolio = await Portfolio.findOne({ DmStockuser: userId });
+        if (!portfolio) {
+            return res.status(404).json({ message: "Portfolio not found." });
+        }
+
+        // Find the stock in the portfolio
+        console.log(portfolio);
+        console.log(stockId);
+
+        const stock = portfolio.currentstock.find(stock => stock && stock._id.toString() === stockId);
+        if (!stock) {
+            return res.status(404).json({ message: "Stock not found in the portfolio." });
+        }
+
+        // Find stock details
+        const stockDetails = await Stock.findById(stock.stockid);
+        if (!stockDetails) {
+            return res.status(404).json({ message: "Stock details not found." });
+        }
+
+        // Check if the stock is short and has an amount
+        if (stock.short && stock.amount) {
+            // Update user balance
+            user.balance = parseInt(user.balance) -parseInt(stock.amount) * parseInt(stockDetails.price);
+
+            // Create transaction
+            const transaction = {
+                name: stock.name,
+                price: stockDetails.price,
+                amount: stock.amount,
+                balance: user.balance,
+                buy: false,
+                sell: false
+            };
+
+            // Add transaction to portfolio stocks
+            portfolio.stocks.unshift(transaction);
+
+            // Reset stock amount
+            stock.amount = 0;
+
+            // Save changes
+            await user.save();
+            await portfolio.save();
+
+            return res.json({ message: "Success." });
+        } else {
+            return res.status(400).json({ message: "Stock is not short or does not have an amount." });
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
+});
+
   router.put("/short-sell", async (req, res) => {
     try {
       const portfolios = await Portfolio.find();
@@ -156,7 +222,7 @@ router.put("/contest/end", async (req, res) => {
                
               if (stockDetails) {
                 // Update user balance
-                user.balance = parseInt(user.balance) + parseInt(stock.amount) * (parseInt(stock.price) - parseInt(stockDetails.price));
+                user.balance = parseInt(user.balance) - parseInt(stock.amount) * ( parseInt(stockDetails.price));
 
                 
                 // Create transaction

@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import img from './shriRam.png'
 import { logout } from "../../actions/auth";
 
 const Navbar_ = ({ auth: { isAuthenticated, loading }, logout }) => {
@@ -71,7 +71,7 @@ const Navbar_ = ({ auth: { isAuthenticated, loading }, logout }) => {
       <div onClick={closeNavbar} className={`overlay ${navbarOpen ? 'active' : ''}`} />
       <Navbar expand="lg" collapseOnSelect className="bg-nav fixed-top navbar-dark navbar-fixed" style={{ boxShadow: "rgb(0 0 0 / 71%) 0px 2px 4px 0px" }}>
         <Navbar.Brand className="me-5 ms-2" href="/dashboard">
-          {'  '}<i className="fa-brands fa-square-lastfm ms-2"></i>{'    '} FreshersMockStock
+          {'  '} <img src={img} style={{width:"42px"}}></img>{'    '} ShriRamMockStock
         </Navbar.Brand>
 
         <Navbar.Toggle onClick={toggleNavbar} aria-controls="basic-navbar-nav" />

@@ -117,7 +117,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
    if(portfolio!=null)  balance = portfolio.DmStockuser.balance;
  
    
-   
+   balance = parseInt(balance )+ calculateTransactionPrice();
     const amount  = selectedQuantity;
      
     const stock = selectedStock;

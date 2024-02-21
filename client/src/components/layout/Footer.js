@@ -15,7 +15,7 @@ const Footer = () => {
             <ul className="list-unstyled text-decoration-none">
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li>Contact Us at <a href=""> : DsMockStock@gmail.com</a></li>
+              <li>Contact Us at <a href="mailto:SRMS@gmail.com"> : SRMS@gmail.com</a></li>
             </ul>
           </div>
         </div>
