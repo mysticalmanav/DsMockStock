@@ -139,11 +139,8 @@ export const shortStock =  ({stock,balance,amount})=>async dispatch =>{
     const body = JSON.stringify({ stock,balance,amount });
     try{
         
-        if((balance)<0){
-            dispatch(setAlert('Insufficient balance', 'default'));
-
-        }
-        else if(amount===0||amount==null){
+        
+         if(amount===0||amount==null){
             dispatch(setAlert('Insufficient amount of stock for purachasing.', 'default'));
         }
         else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/shortsell',body,config);

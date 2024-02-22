@@ -25,7 +25,7 @@ const Dialog = ({ setTrue, isOpen, setIsOpen }) => {
           }}
         >
           <div
-            className="modal-content p-5 pb-2"
+            className="modal-content p-5"
             style={{
               backgroundColor: "white",
               borderRadius: "10px",

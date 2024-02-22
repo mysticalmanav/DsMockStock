@@ -45,7 +45,8 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) 
   useEffect(() => {
    
      if(confirm){
-        sendTo();
+         sendTo();
+        setTrue(false);
      }
    
 
@@ -58,7 +59,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) 
     try {
   
           
-      const res = await axios.put(`http://localhost:4000/api/news/short-sell/${iden}`);
+      const res = await axios.put(`https://freshersmockstock.onrender.com/api/news/short-sell/${iden}`);
       setAlert("Position Closed", 'success');
      
 
@@ -188,9 +189,9 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) 
                     <td>{stock.amount}</td> 
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
                     <td>{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)>0?<p className='text-success'>₹{calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit(getCurrentPrice(stock.stockid), stock.price, stock.amount)}</p>}</td>
-                    <td>   <button
-            className="btn btn-md btn-outline-primary"
-            onClick={()=>sendTosell(stock.stockid)}
+                    <td className=''>   <button
+            className="btn btn-md btn-outline-primary my-auto  border border-light"
+            onClick={()=>sendTosell(stock.stockid)} 
           >
           Sell
           </button>  </td>
@@ -215,7 +216,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) 
                 <tr >
                   <th>Name</th>
                   <th>Current Price</th>
-                  <th>Purchased Price</th>
+                  <th>Sold Price</th>
                   <th>Quantity</th>
                   <th>Purchase Date & Time</th> 
                   <th>Profit</th>
@@ -232,7 +233,7 @@ const UserProfile = ({ getPortfolio, userprofile, getStocks, stocks,setAlert }) 
                     <td><Moment format='MMMM Do YYYY, h:mm:ss a'>{stock.date}</Moment></td>
                     <td>{calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)>0?<p className='text-success'>₹{calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)}</p>:<p className='text-danger'>₹ {calculateProfit( stock.price,getCurrentPrice(stock.stockid), stock.amount)}</p>}</td>
                     <td>   <button
-            className="btn btn-md btn-outline-primary"
+            className="btn btn-md btn-outline-primary border border-light"
             onClick={()=>sendToShort(stock._id)}
           >
          Close Position
