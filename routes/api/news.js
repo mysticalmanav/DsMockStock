@@ -25,7 +25,7 @@ router.post(
        
       try {
        
-        if(code2!=='manav'){
+        if(code2!=='ds'){
             return res.status(401).json({
                 errors: [{ msg: "Not authorized" }],
               });

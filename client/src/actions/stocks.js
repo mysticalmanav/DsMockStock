@@ -99,7 +99,7 @@ export const sellStock =  ({stock,currentstock,balance,amount})=>async dispatch 
     const body = JSON.stringify({ stock,balance,amount });
     let totalamount  = 0;
    if(currentstock!=null&&currentstock.length>0) { currentstock.map((stock)=>{
-        if(stock!=null&&stock.stockid===stockid){
+        if(stock!=null&&stock.stockid===stockid&&(!stock.short)){
             totalamount += stock.amount;
         }
     })}
@@ -149,7 +149,7 @@ export const shortStock =  ({stock,balance,amount})=>async dispatch =>{
             type:USER_LOADED,
             payload:res.data
         });
-        dispatch(setAlert('Stocks purchased successfully', 'success'));
+        dispatch(setAlert('Transection successfull', 'success'));
         dispatch(getPortfolio());
     }
     }

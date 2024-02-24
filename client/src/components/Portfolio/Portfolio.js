@@ -101,6 +101,10 @@ const UserProfile = ({
         if (stock && !stock.short) {
           total += stock.amount * parseInt(getCurrentPrice(stock.stockid));
         }
+        else if(stock){
+          total -= stock.amount * parseInt(getCurrentPrice(stock.stockid));
+
+        }
       });
     return total;
   };
@@ -153,9 +157,7 @@ const UserProfile = ({
               Below is a list of stocks you currently own:
             </p>
             <p className="mb-0 text-warning mt-2 mx-2">
-              ! You gets 10% dividends on your stock in particular Intervals.
-              For now you will get it on the end of contest on stocks you holded
-              in all the rounds.
+              
             </p>
           </div>
           {screenWidth > 777 && (

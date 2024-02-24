@@ -105,6 +105,7 @@ router.put("/buy", [auth], async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 router.put("/sell", [auth], async (req, res) => {
   let { stock, balance, amount } = req.body;
   try {
@@ -114,7 +115,7 @@ router.put("/sell", [auth], async (req, res) => {
     const portfolio = await Portfolio.findOne({ DmStockuser: req.user.id });
     const { name, price, _id } = stock;
     const updatedStocks = portfolio.currentstock.map((stock) => {
-      if (stock != null && stock.name === name &&((!(stock.short) )||stock.short == false)) {
+      if (stock != null && stock.name === name &&((!(stock.short) ) )) {
         console.log("true");
         const newAmount =
           stock.amount > 0 ? Math.max(0, stock.amount - amount) : 0;
