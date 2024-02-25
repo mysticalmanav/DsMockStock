@@ -58,7 +58,7 @@ const UserProfile = ({
   const sendTo = async () => {
     try {
       const res = await axios.put(
-        `https://freshersmockstock.onrender.com/api/news/short-sell/${iden}`
+        `https://shrirammockstock.onrender.com/api/news/short-sell/${iden}`
       );
       setAlert("Position Closed", "success");
     } catch (error) {

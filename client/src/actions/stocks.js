@@ -10,7 +10,7 @@ export const getStocks =  ()=>async dispatch =>{
          
     
     try{
-        const res = await axios.get('https://freshersmockstock.onrender.com/api/stocks');
+        const res = await axios.get('https://shrirammockstock.onrender.com/api/stocks');
         dispatch({
             type:GET_STOCK,
             payload:res.data
@@ -32,7 +32,7 @@ export const addStock = ({ name, price,code }) => async dispatch => {
     const body = JSON.stringify({ name,price,code });
     try {
           
-        const res = await axios.post('https://freshersmockstock.onrender.com/api/stocks', body, config);
+        const res = await axios.post('https://shrirammockstock.onrender.com/api/stocks', body, config);
         dispatch({
             type:GET_STOCK ,
             payload: res.data 
@@ -69,7 +69,7 @@ export const buyStock =  ({stock,balance,amount})=>async dispatch =>{
         else if(amount===0||amount==null){
             dispatch(setAlert('Insufficient amount of stock for purachasing.', 'default'));
         }
-        else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/buy',body,config);
+        else{const res = await axios.put('https://shrirammockstock.onrender.com/api/stocks/buy',body,config);
         
         dispatch({
             type:USER_LOADED,
@@ -111,7 +111,7 @@ export const sellStock =  ({stock,currentstock,balance,amount})=>async dispatch 
         else if(amount===0||amount===null){
             dispatch(setAlert('Insufficient amount of stock for selling.', 'default'));
         }
-        else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/sell',body,config);
+        else{const res = await axios.put('https://shrirammockstock.onrender.com/api/stocks/sell',body,config);
         
         dispatch({
             type:USER_LOADED,
@@ -143,7 +143,7 @@ export const shortStock =  ({stock,balance,amount})=>async dispatch =>{
          if(amount===0||amount==null){
             dispatch(setAlert('Insufficient amount of stocks for purachasing.', 'default'));
         }
-        else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/shortsell',body,config);
+        else{const res = await axios.put('https://shrirammockstock.onrender.com/api/stocks/shortsell',body,config);
         
         dispatch({
             type:USER_LOADED,

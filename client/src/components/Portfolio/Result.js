@@ -13,7 +13,7 @@ const PortfolioTable = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://freshersmockstock.onrender.com/api/result');
+      const response = await axios.get('https://shrirammockstock.onrender.com/api/result');
       const jsonData = await response.data;
       const sortedData = jsonData.sort((a, b) => b.Net_worth - a.Net_worth); // Sort data by Net worth in decreasing order
       setData(sortedData);
