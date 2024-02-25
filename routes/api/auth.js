@@ -48,7 +48,7 @@ router.post('/', [
         try {
             const { email, code } = req.body;
 
-            const isMatch = (code==='DSTREET&SRCC#1234')
+            const isMatch = (code==='DST@SRMS')
             if (!isMatch) {
                 return res.status(400).json({errors:[{msg:"Invalid credential"}]})
             }

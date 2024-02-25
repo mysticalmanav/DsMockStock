@@ -81,7 +81,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     let total = 0;
      
     if(portfolio!=null){ portfolio.currentstock.map((st)=>{
-          if(st!=null&&stock&&st.stockid===stock._id){
+          if(st!=null&&stock&&st.stockid===stock._id&&(!st.short)){
             total += parseInt(st.amount);
           }
     }); }
@@ -263,7 +263,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
               onClick={() => handleStockSelect(stock)}
               
             >
-              Select Stock
+              Select
             </button></a>
         </div>
          
@@ -276,13 +276,8 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
      
     </div>
     <div className="bottom-section mt-5">
-        <h2>Explore More Stocks</h2>
-        <p>
-          Discover a wide range of stocks to diversify your portfolio and capitalize on investment opportunities.
-        </p>
-        <p>
-          Our platform provides real-time data, advanced research tools, and expert insights to help you make informed trading decisions.
-        </p>
+        <h2>Happy Trading....</h2>
+         
          
       </div>
 

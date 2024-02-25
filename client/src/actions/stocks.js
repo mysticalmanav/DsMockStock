@@ -141,7 +141,7 @@ export const shortStock =  ({stock,balance,amount})=>async dispatch =>{
         
         
          if(amount===0||amount==null){
-            dispatch(setAlert('Insufficient amount of stock for purachasing.', 'default'));
+            dispatch(setAlert('Insufficient amount of stocks for purachasing.', 'default'));
         }
         else{const res = await axios.put('https://freshersmockstock.onrender.com/api/stocks/shortsell',body,config);
         
@@ -149,7 +149,7 @@ export const shortStock =  ({stock,balance,amount})=>async dispatch =>{
             type:USER_LOADED,
             payload:res.data
         });
-        dispatch(setAlert('Transection successfull', 'success'));
+        dispatch(setAlert('Transaction successfull', 'success'));
         dispatch(getPortfolio());
     }
     }
