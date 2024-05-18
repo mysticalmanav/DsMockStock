@@ -8,6 +8,7 @@ import { setAlert } from '../../actions/alert';
 import { getPortfolio } from '../../actions/userprofile';
 import Spinner from '../layout/Spinner';
 import encrypt from '../bgimg/encrypt.jpg'
+import { LineChart } from '@mui/x-charts/LineChart';
 
 const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { stocks, loading }, getStocks ,buyStock,sellStock,getPortfolio,shortStock}) => {
   const [selectedStock, setSelectedStock] = useState(null);
@@ -99,7 +100,6 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
    
     balance = parseInt(balance )+ calculateTransactionPrice();
     const amount  = selectedQuantity;
-     
     const stock = selectedStock;
     const currentstock = portfolio.currentstock;
     await sellStock({stock,currentstock,balance,amount}); 
@@ -150,95 +150,125 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
     <div className='py-3 p-1 text-heavy mt-5'>
     <div className="mb-2 container rounded p-1 mt-2" id= 'selcted'>
       <form>
-       {selectedStock && (
-        <div className="transaction-section" >
-          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static"> 
-        <span className='email-label my-0'>Selected Stock: </span>
-          <h3 >{selectedStock.name}</h3>
-          <div class="mb-1  email-label">Currently Held: </div>
-          <h5>{findCurrentHolds(selectedStock)}</h5>
+      {selectedStock && (
+  <div className="transaction-section">
+    <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div className="col p-4 d-flex flex-column position-static">
+        <span className="email-label my-0">Selected Stock:</span>
+        <h3>{selectedStock.name}</h3>
+        <div className="mb-1 email-label">Currently Held:</div>
+        <h5>{findCurrentHolds(selectedStock)}</h5>
 
-          <p className='email-label my-0'>Price Change:</p>
+        <p className="email-label my-0">Price Change:</p>
+        <p className="card-text mb-auto">
+          {calculatePriceChange(selectedStock) >= 0 ? (
+            <p className="text-success">₹ {calculatePriceChange(selectedStock)}</p>
+          ) : (
+            <p className="text-danger">₹ {calculatePriceChange(selectedStock)}</p>
+          )}
+        </p>
 
-          <p class="card-text mb-auto"> {calculatePriceChange(selectedStock)>=0? <p className='text-success'>₹ {calculatePriceChange(selectedStock)}</p>:<p className='text-danger'>₹ {calculatePriceChange(selectedStock)}</p>}</p>
-          <p className='email-label my-0'>Price:</p>
-          <h2>₹ {selectedStock.price}</h2>
-          <div className="radio-container">
-  <div className="form-check form-check-inline">
-    <input
-      type="radio"
-      className="form-check-input"
-      name="transactionType"
-      id="buyRadio"
-      value="buy"
-      checked={transactionType === 'buy'}
-      onChange={handleTransactionTypeChange}
-    />
-    <label className="form-check-label" htmlFor="buyRadio">
-      Buy
-    </label>
-  </div>
-  <div className="form-check form-check-inline">
-    <input
-      type="radio"
-      className="form-check-input"
-      name="transactionType"
-      id="shortRadio"
-      value="short"
-      checked={transactionType === 'short'}
-      onChange={handleTransactionTypeChange}
-    />
-    <label className="form-check-label" htmlFor="shortRadio">
-      Short Sell
-    </label>
-  </div>   
-  <div className="form-check form-check-inline"> 
-    <input
-      type="radio"    
-      className="form-check-input success"
-      name="transactionType"
-      id="sellRadio"
-      value="sell"
-      checked={transactionType === 'sell'}
-      onChange={handleTransactionTypeChange}
-    />
-    <label className="form-check-label" htmlFor="sellRadio">
-      Sell
-    </label>
-    </div>
-    <div className="form-group">
-            <label htmlFor="quantity" className='email-label mt-1'>Select Quantity:</label>
+        <p className="email-label my-0">Price:</p>
+        <h2>₹ {selectedStock.price}</h2>
+
+        <div className="radio-container">
+          <div className="form-check form-check-inline">
             <input
-              type="number"
-              className="form-control w-25"
-              id="quantity"
-              value={selectedQuantity}
-              onChange={handleQuantityChange}
-              min={0}
-              max={selectedStock.quantity}
-              
-              required
+              type="radio"
+              className="form-check-input"
+              name="transactionType"
+              id="buyRadio"
+              value="buy"
+              checked={transactionType === 'buy'}
+              onChange={handleTransactionTypeChange}
             />
+            <label className="form-check-label" htmlFor="buyRadio">Buy</label>
           </div>
-          <h5 className='my-2'>Transaction Amount: ₹ {calculateTransactionPrice()}</h5>
-          {isClicked===false?<button type='submit' className="btn btn-success" onClick={transactionType === 'buy' ? ()=>{sendbuyStock()} : transactionType==='sell'?()=>{sendsellStock()}:()=>{shortsStock()} }  > 
-            {transactionType === 'buy' ? 'Buy' : 'Sell'}
-          </button>:<button class="btn btn-success" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-  <span class="sr-only">Loading...</span>
-</button>}
+          <div className="form-check form-check-inline">
+            <input
+              type="radio"
+              className="form-check-input"
+              name="transactionType"
+              id="shortRadio"
+              value="short"
+              checked={transactionType === 'short'}
+              onChange={handleTransactionTypeChange}
+            />
+            <label className="form-check-label" htmlFor="shortRadio">Short Sell</label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              type="radio"
+              className="form-check-input"
+              name="transactionType"
+              id="sellRadio"
+              value="sell"
+              checked={transactionType === 'sell'}
+              onChange={handleTransactionTypeChange}
+            />
+            <label className="form-check-label" htmlFor="sellRadio">Sell</label>
+          </div>
         </div>
-  
 
+        <div className="form-group">
+          <label htmlFor="quantity" className="email-label mt-1">Select Quantity:</label>
+          <input
+            type="number"
+            className="form-control w-25"
+            id="quantity"
+            value={selectedQuantity}
+            onChange={handleQuantityChange}
+            min={0}
+            max={selectedStock.quantity}
+            required
+          />
         </div>
-       <div className="text-center card-img-right d-none d-md-block email-label"style={{width: "50%" }}> <img className="card-img-right flex-auto d-none d-md-block" src={encrypt}  data-holder-rendered="true" ></img>
-        * Secure transactions with encrypted network</div>
+
+        <h5 className="my-2">Transaction Amount: ₹ {calculateTransactionPrice()}</h5>
+
+        {isClicked === false ? (
+          <button 
+            type="submit"
+            className="btn btn-success"
+
+            onClick={
+              transactionType === 'buy' ? sendbuyStock :
+              transactionType === 'sell' ? sendsellStock : shortsStock
+            }
+          >
+            {transactionType === 'buy' ? 'Buy' : 'Sell'}
+          </button>
+        ) : (
+          <button className="btn btn-success" type="button" disabled>
+            <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            <span className="sr-only">Loading...</span>
+          </button>
+        )}
       </div>
-    <hr/>
+
+      <div className="text-center card-img-right d-none d-md-block email-label mx-auto" style={{ width: "50%",alignSelf:"center" }}>
+      <LineChart
+   
+  series={[
+    {
+      data: selectedStock.past.map((ele) => ele.price),
+      color: '#7771ed',label:"₹"
+    },
+  ]}
+  xAxis={[{   data: selectedStock.past.map((ele,index) => index+1),lable:"Round" }]}
+  leftAxis={null}
+  bottomAxis={null}
+
+  
+  height={300}
+/>
+       
       </div>
-      
-       )} 
+    </div>
+    <hr />
+  </div>
+)}
+
        </form>
       <h2 className="text-center text-bold my-2">Available Stocks</h2>
       <hr></hr>
@@ -265,8 +295,24 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
             >
               Select
             </button></a>
+
         </div>
-         
+         <div class="col-auto d-none d-lg-block w-50">
+         <LineChart
+   
+   series={[
+     {
+       data: stock.past.map((ele) => ele.price),
+       color: '#7771ed',label:"₹"
+     },
+   ]}
+   leftAxis={null}
+   bottomAxis={null}
+ 
+   
+   height={300}
+ />
+          </div>
       </div>
       
     </div>
