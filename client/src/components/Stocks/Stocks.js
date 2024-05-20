@@ -107,12 +107,19 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
      
     setisClicked(false);
   }
+  const reverseData = (data) => {
+    const reversedData = data.slice().reverse();
+    const prices = reversedData.map((ele) => ele.price);
+     
+    return prices;
+  };
   const shortsStock =async ()=>{
     setisClicked(true);
     let balance;
     if(!isAuthenticated){
       navigate('/');
   }
+  
   
    if(portfolio!=null)  balance = portfolio.DmStockuser.balance;
  
@@ -251,7 +258,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
    
   series={[
     {
-      data: selectedStock.past.map((ele) => ele.price),
+      data: reverseData(selectedStock.past),
       color: '#7771ed',label:"₹"
     },
   ]}
@@ -302,7 +309,7 @@ const StockList = ({ auth:{isAuthenticated},userprofile:{portfolio},stocks: { st
    
    series={[
      {
-       data: stock.past.map((ele) => ele.price),
+       data: reverseData(stock.past),
        color: '#7771ed',label:"₹"
      },
    ]}
